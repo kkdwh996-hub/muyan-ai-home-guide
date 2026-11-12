@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="慕言 AI 家电顾问，支持语音提问、知识库溯源、多轮选购、商品对比与售后转接。"
+    />
+    <meta name="theme-color" content="#f4f0e7" />
+    <title>慕言 · AI 家电顾问</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="grain" aria-hidden="true"></div>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="慕言首页">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 36 36">
+              <path d="M7 22.5c2.8-7 6.2-10.4 10.4-10.4 3 0 5.2 2.1 5.2 4.9 0 3.3-2.8 5.4-5.5 4.2" />
+              <path d="M18.2 25.6c3.9 1.9 8.3.2 10.8-3.4" />
+            </svg>
+          </span>
+          <span class="brand-type">
+            <strong>慕言</strong>
+            <small>MUYAN HOME</small>
+          </span>
+        </a>
+
+        <nav class="main-nav" aria-label="主导航">
+          <a class="active" href="#conversation">AI 选购顾问</a>
+          <a href="#recommendations">精选家电</a>
+          <a href="#service">服务保障</a>
+        </nav>
+
+        <div class="top-actions">
+          <button class="plain-button" id="largeTextButton" type="button" aria-pressed="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 19 10.3 5h3.4L19 19M7 14h10" />
+            </svg>
+            <span>大字模式</span>
+          </button>
+          <button class="profile-button" type="button" aria-label="会员中心">
+            <span class="profile-avatar">林</span>
+            <span>林女士</span>
+          </button>
+        </div>
+      </header>
+
+      <main class="workspace">
+        <section class="assistant-panel" aria-label="AI 家电顾问">
+          <header class="assistant-header">
+            <div class="assistant-identity">
+              <div class="assistant-avatar" aria-hidden="true">
+                <span></span><span></span><span></span><span></span>
+              </div>
+              <div>
+                <div class="title-line">
+                  <h1>小慕 · AI 家电顾问</h1>
+                  <span class="online-pill"><i></i>在线</span>
+                </div>
+                <p>听你说话，也把答案读给你听</p>
+              </div>
+            </div>
+            <div class="header-tools">
+              <span class="support-note" id="supportNote">正在检测语音能力</span>
+              <button class="icon-button" id="newChatButton" type="button" aria-label="开始新对话" title="开始新对话">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 5v14M5 12h14" />
+                </svg>
+              </button>
+            </div>
+          </header>
+
+          <div class="pipeline-wrap">
+            <div class="pipeline-label">
+              <span>语音回答链路</span>
+              <strong id="pipelineStatus">等待你开口</strong>
+            </div>
+            <ol class="pipeline" id="voicePipeline" aria-label="语音回答处理进度">
+              <li data-stage="voice"><i>1</i><span>听清问题</span></li>
+              <li data-stage="intent"><i>2</i><span>理解需求</span></li>
+              <li data-stage="retrieval"><i>3</i><span>检索知识</span></li>
+              <li data-stage="answer"><i>4</i><span>生成回答</span></li>
+              <li data-stage="speak"><i>5</i><span>语音播报</span></li>
+            </ol>
+          </div>
+
+          <div class="conversation" id="conversation" aria-live="polite">
+            <section class="welcome" id="welcome">
+              <div class="welcome-copy">
+                <p class="eyebrow">晚上好，林女士</p>
+                <h2>把需求说出来，<br /><em>我替你选得更准。</em></h2>
+                <p class="welcome-subtitle">
+                  可以直接说预算、家庭人数和在意的问题。我会结合商品知识库回答，并标明信息来源。
+                </p>
+                <div class="prompt-list" aria-label="推荐提问">
+                  <button type="button" class="prompt-chip" data-prompt="三口之家，预算四千以内，想买一台省电静音的冰箱">
+                    <span>01</span>三口之家，四千内选冰箱
+                  </button>
+                  <button type="button" class="prompt-chip" data-prompt="洗烘一体机和单独洗衣机有什么区别，哪个更适合有孩子的家庭？">
+                    <span>02</span>洗烘一体怎么选
+                  </button>
+                  <button type="button" class="prompt-chip" data-prompt="空调安装和退换货政策是什么？">
+                    <span>03</span>查安装与退换政策
+                  </button>
+                </div>
+              </div>
+
+              <div class="voice-stage">
+                <div class="stage-orbit orbit-one" aria-hidden="true"></div>
+                <div class="stage-orbit orbit-two" aria-hidden="true"></div>
+                <button class="hero-mic" id="heroMic" type="button" aria-label="按下开始语音提问">
+                  <span class="mic-glow"></span>
+                  <svg class="mic-icon" viewBox="0 0 32 32" aria-hidden="true">
+                    <rect x="11" y="5" width="10" height="15" rx="5" />
+                    <path d="M7.5 15.5a8.5 8.5 0 0 0 17 0M16 24v4M12.5 28h7" />
+                  </svg>
+                  <span class="stop-icon" aria-hidden="true"></span>
+                </button>
+                <div class="voice-bars" id="heroBars" aria-hidden="true">
+                  <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+                </div>
+                <p class="voice-instruction" id="voiceInstruction">按一下，直接说出你的需求</p>
+                <p class="voice-example">试试：“家里有老人，空调要静音、好操作”</p>
+              </div>
+            </section>
+
+            <div class="messages" id="messages"></div>
+          </div>
+
+          <div class="speech-dock" id="speechDock" hidden>
+            <div class="speech-meta">
+              <span class="speaking-indicator"><i></i><i></i><i></i></span>
+              <span id="speechStateLabel">正在语音回答</span>
+            </div>
+            <p id="speechCaption"></p>
+            <div class="speech-actions">
+              <button class="round-control" id="pauseSpeechButton" type="button" aria-label="暂停播报">
+                <svg class="pause-glyph" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M8 5v14M16 5v14" />
+                </svg>
+                <svg class="play-glyph" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="m8 5 11 7-11 7Z" />
+                </svg>
+              </button>
+              <button class="round-control" id="replaySpeechButton" type="button" aria-label="重新播报">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M19 8a7 7 0 1 0 .2 7.7M19 4v4h-4" />
+                </svg>
+              </button>
+              <button class="round-control" id="stopSpeechButton" type="button" aria-label="停止播报">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="7" y="7" width="10" height="10" rx="1" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <footer class="composer-wrap">
+            <form class="composer" id="composer">
+              <button class="composer-mic" id="composerMic" type="button" aria-label="语音输入">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="8" y="3" width="8" height="12" rx="4" />
+                  <path d="M5 11a7 7 0 0 0 14 0M12 18v3M9 21h6" />
+                </svg>
+              </button>
+              <label class="input-wrap">
+                <span class="sr-only">输入问题</span>
+                <textarea
+                  id="queryInput"
+                  rows="1"
+                  maxlength="800"
+                  placeholder="说出或输入你的问题，例如：预算五千，想选一台安静的新风空调"
+                ></textarea>
+                <span class="input-hint">Enter 发送 · Shift + Enter 换行</span>
+              </label>
+              <button class="send-button" type="submit" aria-label="发送问题">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="m5 12 14-7-4.5 14-3-5.5L5 12Z" />
+                </svg>
+              </button>
+            </form>
+            <div class="composer-foot">
+              <span><i class="shield-dot"></i>回答基于商品知识库，可核对来源</span>
+              <button type="button" id="handoffButton">复杂问题，转人工顾问</button>
+            </div>
+          </footer>
+        </section>
+
+        <aside class="context-rail" aria-label="会话辅助信息">
+          <section class="rail-card profile-card">
+            <div class="rail-title">
+              <div>
+                <span class="rail-kicker">顾问记得</span>
+                <h3>你的选购偏好</h3>
+              </div>
+              <button class="text-button" id="clearProfileButton" type="button">清空</button>
+            </div>
+            <div class="profile-tags" id="profileTags">
+              <span class="empty-tag">说出需求后，我会记住</span>
+            </div>
+            <div class="memory-note">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 3a7 7 0 0 0-4 12.7V20h8v-4.3A7 7 0 0 0 12 3ZM9 23h6" />
+              </svg>
+              仅用于本次会话，可随时清空
+            </div>
+          </section>
+
+          <section class="rail-card voice-card">
+            <div class="rail-title">
+              <div>
+                <span class="rail-kicker">声音设置</span>
+                <h3>让小慕读给你听</h3>
+              </div>
+              <label class="switch">
+                <input id="autoSpeakToggle" type="checkbox" checked />
+                <span></span>
+                <b class="sr-only">自动语音播报</b>
+              </label>
+            </div>
+            <label class="range-row" for="speechRate">
+              <span>播报速度</span>
+              <output id="speechRateValue" for="speechRate">正常</output>
+            </label>
+            <input id="speechRate" type="range" min="0.7" max="1.25" step="0.05" value="1" />
+            <label class="select-row" for="voiceSelect">
+              <span>中文声音</span>
+              <select id="voiceSelect">
+                <option value="">系统默认</option>
+              </select>
+            </label>
+          </section>
+
+          <section class="rail-card evidence-card">
+            <div class="rail-title">
+              <div>
+                <span class="rail-kicker">可信回答</span>
+                <h3>本次引用来源</h3>
+              </div>
+              <span class="source-count" id="sourceCount">0</span>
+            </div>
+            <div class="source-list" id="sourceList">
+              <div class="source-empty">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M5 4h11l3 3v13H5V4Zm11 0v4h4M8 12h8M8 16h6" />
+                </svg>
+                回答时会显示来源
+              </div>
+            </div>
+          </section>
+
+          <section class="rail-card service-card" id="service">
+            <span class="rail-kicker">快捷服务</span>
+            <h3>还可以这样找我</h3>
+            <div class="service-actions">
+              <button type="button" data-service="售后保修政策是什么？">
+                <span class="service-icon">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 3 4.5 6v5.5c0 4.5 3 7.6 7.5 9.5 4.5-1.9 7.5-5 7.5-9.5V6L12 3Z" />
+                    <path d="m9 12 2 2 4-4" />
+                  </svg>
+                </span>
+                <span><b>查售后</b><small>保修、退换与安装</small></span>
+                <i>↗</i>
+              </button>
+              <button type="button" data-service="帮我把刚才推荐的商品做个对比">
+                <span class="service-icon warm">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M4 7h16M7 4v6M17 4v6M6 14h5v6H6v-6ZM14 11h4v9h-4v-9Z" />
+                  </svg>
+                </span>
+                <span><b>参数对比</b><small>把候选型号放在一起</small></span>
+                <i>↗</i>
+              </button>
+            </div>
+          </section>
+
+          <section class="rail-card handoff-card" id="handoffCard" hidden>
+            <span class="live-tag"><i></i>人工服务</span>
+            <h3 id="handoffTitle">正在转接人工顾问</h3>
+            <p id="handoffDescription">已带上本次对话摘要，无需重复描述。</p>
+            <div class="handoff-progress">
+              <span id="handoffTicket"></span>
+              <strong id="handoffWait">预计 10 秒接入</strong>
+            </div>
+            <button type="button" class="secondary-button" id="returnToAi">继续和小慕聊</button>
+          </section>
+        </aside>
+      </main>
+
+      <footer class="site-foot">
+        <span>慕言 AI 家电顾问 · 课程项目演示</span>
+        <span>语音识别与合成由浏览器能力提供</span>
+      </footer>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <dialog class="compare-dialog" id="compareDialog">
+      <div class="dialog-head">
+        <div>
+          <span class="rail-kicker">选购助手</span>
+          <h2>候选商品参数对比</h2>
+        </div>
+        <button class="icon-button" id="closeCompare" type="button" aria-label="关闭对比">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="m6 6 12 12M18 6 6 18" />
+          </svg>
+        </button>
+      </div>
+      <div class="compare-content" id="compareContent"></div>
+    </dialog>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

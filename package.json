@@ -1,0 +1,16 @@
+{
+  "name": "muyan-ai-home-guide",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Voice-first AI shopping and service assistant for home appliances.",
+  "scripts": {
+    "start": "node server.mjs",
+    "dev": "node --watch server.mjs",
+    "build": "node scripts/build-static.mjs",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
