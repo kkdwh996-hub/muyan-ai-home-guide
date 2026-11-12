@@ -2,6 +2,10 @@
 
 面向家电电商的语音优先智能导购与客服 Web 项目，依据 `AI案例分析与综合报告.pptx` 中的智能客服、智能导购、适老化语音、可信问答与转人工场景实现。
 
+在线演示：https://kkdwh996-hub.github.io/muyan-ai-home-guide/
+
+GitHub 仓库：https://github.com/kkdwh996-hub/muyan-ai-home-guide
+
 ## 运行
 
 项目无第三方运行时依赖，Node.js 20 以上即可启动：

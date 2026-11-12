@@ -4,6 +4,10 @@
   "private": true,
   "type": "module",
   "description": "Voice-first AI shopping and service assistant for home appliances.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kkdwh996-hub/muyan-ai-home-guide.git"
+  },
   "scripts": {
     "start": "node server.mjs",
     "dev": "node --watch server.mjs",
